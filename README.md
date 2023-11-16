@@ -33,4 +33,4 @@
 
 ## 参考にした web サイトなど
 
-[https://www.youtube.com/watch?v=9ZzmovKnq4A](https://youtu.be/0X2wpe1m0L4?si=vDYDAIapAiK1SGgP)https://youtu.be/0X2wpe1m0L4?si=vDYDAIapAiK1SGgP
+[https://www.youtube.com/watch?v=9ZzmovKnq4A](https://youtu.be/0X2wpe1m0L4?si=vDYDAIapAiK1SGgP)
