@@ -1,9 +1,11 @@
 <!DOCTYPE html>
-<html>
+<html lang="ja">
 
 <head>
   <meta charset="UTF-8">
-  <title>myMemoPad</title>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ママの部屋</title>
   <script src="js/jquery-2.1.3.min.js"></script>
   <link rel="stylesheet" href="css/reset.css">
   <link rel="stylesheet" href="css/style_01.css">
@@ -12,108 +14,192 @@
 
 <body>
 	<header>
-  <h1>今日のひとこと</h1>
+  <h1>カノンのひとこと</h1>
 </header>
 		<!-- BGMを流す -->
 		<section>
-			<audio src="img/ed.mp3" id="audio" pause="pause" loop="loop"></audio>
+			<audio src="img/edse.mp3" id="audio" pause="pause" loop="loop"></audio>
 			<div id="btn-gold">BGMを再生／停止</div>
 		</section>
 
   <main>
-    <div class="input-area">
+		<div class="input-area">
+		<div>
+			<input id="uname" type="text" placeholder="名前を入力してください">
+	</div>
       <textarea id="title" type="text" placeholder="下のボタンから今日の質問を選ぼう！"></textarea>
 			<button class="btn btn-solid-silver" onClick="ranAry()">今日の質問</button>
       <textarea id="text" placeholder="答えを教えてね！"></textarea>
     </div>
 
-    <div class="button-area">
-			<button id="save"><span>保存する</span></button>
-			<button id="clear"><span>全て削除</span></button>
-    </div>
-  </main>
+			<button id="save"><span>送信</span></button>
+  
+		</main>
 
-  <ul id="list">
+  <ul id="output">
     <!-- ここに追加データが挿入される -->
   </ul>
 
 
 
-
-
-
-
-
-
-
-
-
   <!-- 以下にjsを書いていきます -->
-  <script>
 
-    //1.Save クリックイベント
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	<script type="module">
+			// Import the functions you need from the SDKs you need
+			import { initializeApp } from "https://www.gstatic.com/firebasejs/9.1.0/firebase-app.js";
+			import { getDatabase, ref, push, set, update, onChildAdded, remove, onChildRemoved , onChildChanged}
+					from "https://www.gstatic.com/firebasejs/9.1.0/firebase-database.js";
+			// Your web app's Firebase configuration
+			const firebaseConfig = {
+				apiKey: "AIzaSyCRoZ90FAEvm0ouGFVUqrb7-p2bj8Ikh-Y",
+				authDomain: "gsdev26us07-f16a4.firebaseapp.com",
+				projectId: "gsdev26us07-f16a4",
+				storageBucket: "gsdev26us07-f16a4.appspot.com",
+				messagingSenderId: "499292069688",
+				appId: "1:499292069688:web:bebadcdb08d4b36d4aebcd"
+};
+			const app = initializeApp(firebaseConfig);
+			const db = getDatabase(app); //RealtimeDBに接続
+			const dbRef = ref(db, "chat03"); //RealtimeDB内の"chat"を使う
+
+
+
+    //1.Save クリックイベント(データ登録)
 
 $("#save").on("click", function(){
-	const key = $("#title").val();
-	const value = $("#text").val();
-// ローカルストレージにセット（登録）する
-	localStorage.setItem(key, value);
-	// 埋め込み用のhtmlのタグと変数を紐づけるテクニック
-	// ES6で登場したテンプレートリテラルというテクニックを使っている
-	const html = `
-	<li>
-		<p class="ptitle">${key}</p>
-		<p class="ptext">${value}</p>
-	</li>
-`;
-// html=画面に表示する
-	$("#list").prepend(html);
+	const uname = $("#uname").val();
+	const title = $("#title").val();
+	const text = $("#text").val();
+
+	console.log(uname,'unameの文字')
+	console.log(title,'titleの文字')
+	console.log(text,'textの文字')
+
+// 入力された文字が確認できたあとは
+// firebaseにデータを送るコードを記述します
+
+const msg = {
+	uname: uname,
+	title: title,
+	text: text
+}
+
+// firebaseにデータを送る処理
+// pushはfirebaseが用意したおまじない（注意）
+const newPostRef = push(dbRef);
+// setはfirebaseが用意したおまじない（注意）
+set(newPostRef, msg);
+
+// 送信を押したら入力された文字を消すには？
+	$('#uname').val("");
 	$('#title').val("");
 	$('#text').val("");
+
 // この下は消さない
-});
+})
 
-    //2.clear クリックイベント
+   //データ登録(Enter)
 
-$("#clear").on("click", function (){
-	// 保存されているローカルストレージを全削除する
-	localStorage.clear();
-	// 画面に表示されているliタグを削除＝抹消
-	$("#list").empty();
-});
+  //最初にデータ取得＆onSnapshotでリアルタイムにデータを取得
+		onChildAdded(dbRef, function (data) {
 
- //3.ページ読み込み：保存データ取得表示
-	for (let i = 0; i < localStorage.length; i++) {
-      const key = localStorage.key(i);
-      const value = localStorage.getItem(key);
+		const msg = data.val();
+		const key = data.key; //削除・更新に必須
 
-      // htmlのタグと変数の埋め込み
-      const html = `
-        <li>
-          <p class="ptitle">${key}</p>
-					<p class="ptext">${value}</p>
-        </li>
-      `;
+		console.log(data,'塊')
+		console.log(msg,'塊')
+		console.log(key,'鍵')
 
-      // 画面に表示する
-      $('#list').append(html);
-    }
+					// let h = '<p id="'+key+'">';
+					// 		h += msg.uname;
+					// 		h += '<br>';
+					// 		h += msg.title;
+					// 		h += '<br>';
+					// 		h += '<span contentEditable="true" id="'+key+'_update">'+msg.text+'</span>';
+					// 		h += '<span class="remove" data-key="'+key+'"> 🚮</span>'
+					// 		h += '<span class="update" data-key="'+key+'"> 🆙</span>'
+					// 		h += '</p>';
+					
+					let h = '<div id="'+key+'">';
+							h += '<p class="puname">';
+							h += msg.uname;
+							h += '</p>';
+							h += '<p class="ptitle">';
+							h += msg.title;
+							h += '</p>';
+							h += '<p class="ptext">';
+							h += '<span contentEditable="true" id="'+key+'_update">'+msg.text+'</span>';
+							h += '</p>';
+							h += '<span class="remove" data-key="'+key+'"> 🚮</span>'
+							h += '<span class="update" data-key="'+key+'"> 🆙</span>'
+							h += '</div>';
+
+					$('#output').prepend(h);
+
+				});
+
+				// 削除イベント
+				$("#output").on("click", ".remove", function(){
+					const key = $(this).attr("data-key");
+					const remove_item = ref(db,"chat02/"+key);
+					remove(remove_item); //firebaseデータ削除関数
+				});
+
+				// 更新イベント
+				$("#output").on("click", ".update", function(){
+					const key = $(this).attr("data-key");
+					update(ref(db, "chat02/"+key), {
+						text: $("#"+key+'_update').html()
+					}); //firebaseデータ削除関数
+				});
+
+				// 削除処理がfirebase側で実行されたらイベント発生！
+				onChildRemoved(dbRef, (data) => {
+					$("#"+data.key).remove(); //DOM操作関数（対象を削除）
+				});
+
+				// 更新処理がfirebase側で実行されたらイベント発生！
+				onChildChanged(dbRef, (data) => {
+					$("#"+data.key+'_update').html(data.val().text);
+					$("#"+data.key+'_update').fadeOut(800).fadeIn(800);
+				});
+
+</script>
+				<script type="text/javascript">
 
 function ranAry() {
-	let q = ["一番好きな食べ物は？","子供の頃のあだ名は？","どんな時に楽しいと感じる？","自分を漢字一文字で表すと？","今日一番嬉しかったことは？","今日一番腹が立ったことは？","今日一番笑ったことは？","今日の出来事を3つ教えて！","自分の口癖は？","自分ってどんな性格？","最近のマイブームは？","最近一番楽しかったことは？","最近一番面白かったことは？","最近一番悲しかったことは？","最近一番ムカついたことは？","明日やりたいことは？","今日中にやりたいことは？","最近見た夢を教えて！","今の本音をズバリ教えて！","どんな言葉が好き？","言われて嫌な気持ちになる言葉は？","10年後の自分ってどんなイメージ？","家族にひとこと！","自分にひとこと！","何考えてることが多い？","どんな人といると楽？","一緒にいたい人ってどんな人？","寝る時どんなこと考えてる？","子供の頃得意だったことは何？","どの教科が得意だった？","ニックネームは？","人からどのように褒められる？","趣味は何？","家族はあなたのどんなところが好きだと思う？","長年続けていることは何ですか？","周りにはどのような人たちがいますか？","困った時に相談に乗ってくれる人は何人いますか？","何か達成した時に喜んでくれる人たちは誰ですか？","5年後の自分にひとこと！","1週間後の自分を褒めるとしたら何を褒める？","1ヶ月後に世界が滅ぶとしたら何をする？","今1000万円手に入ったら何に使う？","友達から見た自分の印象は？"];
+	let q = ["Q.一番好きな食べ物は？","Q.子供の頃のあだ名は？","Q.どんな時に楽しいと感じる？","Q.自分を漢字一文字で表すと？","Q.今日一番嬉しかったことは？","Q.今日一番腹が立ったことは？","Q.今日一番笑ったことは？","Q.今日の出来事を3つ教えて！","Q.自分の口癖は？","Q.自分ってどんな性格？","Q.最近のマイブームは？","Q.最近一番楽しかったことは？","Q.最近一番面白かったことは？","Q.最近一番悲しかったことは？","Q.最近一番ムカついたことは？","Q.明日やりたいことは？","Q.今日中にやりたいことは？","Q.最近見た夢を教えて！","Q.今の本音をズバリ教えて！","Q.どんな言葉が好き？","Q.言われて嫌な気持ちになる言葉は？","Q.10年後の自分ってどんなイメージ？","Q.家族にひとこと！","Q.自分にひとこと！","Q.何考えてることが多い？","Q.どんな人といると楽？","Q.一緒にいたい人ってどんな人？","Q.寝る時どんなこと考えてる？","Q.子供の頃得意だったことは何？","Q.どの教科が得意だった？","Q.ニックネームは？","Q.人からどのように褒められる？","Q.趣味は何？","Q.家族はあなたのどんなところが好きだと思う？","Q.長年続けていることは何ですか？","Q.周りにはどのような人たちがいますか？","Q.困った時に相談に乗ってくれる人は何人いますか？","Q.何か達成した時に喜んでくれる人たちは誰ですか？","Q.5年後の自分にひとこと！","Q.1週間後の自分を褒めるとしたら何を褒める？","Q.1ヶ月後に世界が滅ぶとしたら何をする？","Q.今1000万円手に入ったら何に使う？","Q.友達から見た自分の印象は？"];
 
   document.getElementById("title").value = q[Math.floor(Math.random() * q.length)];
 }
+
+	// 音楽を流す
+	$(function() {
+		var audio = $("#audio").get(0);
+		var isPlaying = false;
+		$("#btn-gold").on("click", function () {
+			if (isPlaying) {
+				audio.pause();
+			} else {
+				audio.play();
+			}
+		});
+		audio.onplaying = function() {
+			isPlaying = true;
+		};
+		audio.onpause = function() {
+			isPlaying = false;
+		};
+	});
+
 </script>
-
-
-  </script>
 
 				<!-- jQueryのjsコードを先に読み込む！ -->
 				<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
 				<!-- jsを紐づける。下に書かないとUXに悪い -->
-				<script src="js/user01.js"></script>
+				<!-- <script src="js/user02.js"></script> -->
 </body>
 
 </html>
