@@ -22,6 +22,12 @@
 			<div id="btn-gold">BGMを再生／停止</div>
 		</section>
 
+		<div class="linkbtn">
+		<button class="top" onclick="window.open('./index.html')">TOPへ</button>
+		<button class="kanon" onclick="window.open('./user01.html')">カノンの部屋へ</button>
+		<button class="mama" onclick="window.open('./user02.html')">ママの部屋へ</button>
+		</div>
+		
   <main>
 		<div class="input-area">
 		<div>
@@ -51,7 +57,15 @@
 			import { getDatabase, ref, push, set, update, onChildAdded, remove, onChildRemoved , onChildChanged}
 					from "https://www.gstatic.com/firebasejs/9.1.0/firebase-database.js";
 			// Your web app's Firebase configuration
-
+			const firebaseConfig = {
+  apiKey: "AIzaSyCRoZ90FAEvm0ouGFVUqrb7-p2bj8Ikh-Y",
+  authDomain: "gsdev26us07-f16a4.firebaseapp.com",
+  databaseURL: "https://gsdev26us07-f16a4-default-rtdb.firebaseio.com",
+  projectId: "gsdev26us07-f16a4",
+  storageBucket: "gsdev26us07-f16a4.appspot.com",
+  messagingSenderId: "499292069688",
+  appId: "1:499292069688:web:bebadcdb08d4b36d4aebcd"
+};
 		
 			const app = initializeApp(firebaseConfig);
 			const db = getDatabase(app); //RealtimeDBに接続

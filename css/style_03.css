@@ -94,6 +94,7 @@ footer {
 #output div:nth-child(odd) {
 	background-color: rgb(209, 235, 239);
 	padding: 10px;
+	margin-bottom: 10px;
 	border-radius: 5px;
 	margin-right: auto;
 	width: fit-content;
@@ -102,6 +103,7 @@ footer {
 #output div:nth-child(even) {
 	background-color: rgb(246, 230, 242);
 	padding: 10px;
+	margin-bottom: 10px;
 	border-radius: 5px;
 	margin-right: auto;
 	width: fit-content;
@@ -261,3 +263,108 @@ a#save:hover {
 #clear {
 	height: 40px;
 }
+
+/* TOPボタン周り */
+
+.top {
+	display: block;
+	text-align: center;
+	vertical-align: middle;
+	text-decoration: none;
+	width: 120px;
+	margin-top: 10px;
+	margin-left: 10px;
+	padding: 0rem 2rem;
+	font-weight: bold;
+	color: #161616;
+	border-bottom: 2px solid #27acd9;
+	border-radius: 100vh;
+	box-shadow: 0 2px 7px rgba(0, 0, 0, .3);
+	-webkit-box-shadow: 0 2px 7px rgba(0, 0, 0, .3);
+	transition: 0.5s;
+}
+.top:hover {
+	color: #fff;
+	background: #27acd9;
+	border-bottom: 2px solid #fff;
+	transform: translateY(3px);
+}
+
+.mama {
+	display: block;
+	text-align: center;
+	vertical-align: middle;
+	text-decoration: none;
+	width: 120px;
+	margin-top: 10px;
+	margin-left: 10px;
+	padding: 0rem 0rem;
+	font-weight: bold;
+	color: #161616;
+	border-bottom: 2px solid #27acd9;
+	border-radius: 100vh;
+	box-shadow: 0 2px 7px rgba(0, 0, 0, .3);
+	-webkit-box-shadow: 0 2px 7px rgba(0, 0, 0, .3);
+	transition: 0.5s;
+}
+.mama:hover {
+	color: #fff;
+	background: #27acd9;
+	border-bottom: 2px solid #fff;
+	transform: translateY(3px);
+}
+
+.papa {
+	display: block;
+	text-align: center;
+	vertical-align: middle;
+	text-decoration: none;
+	width: 120px;
+	margin-top: 10px;
+	margin-left: 10px;
+	padding: 0rem 0rem;
+	font-weight: bold;
+	color: #161616;
+	border-bottom: 2px solid #27acd9;
+	border-radius: 100vh;
+	box-shadow: 0 2px 7px rgba(0, 0, 0, .3);
+	-webkit-box-shadow: 0 2px 7px rgba(0, 0, 0, .3);
+	transition: 0.5s;
+}
+.papa:hover {
+	color: #fff;
+	background: #27acd9;
+	border-bottom: 2px solid #fff;
+	transform: translateY(3px);
+}
+
+.kanon {
+	display: block;
+	text-align: center;
+	vertical-align: middle;
+	text-decoration: none;
+	width: 120px;
+	margin-top: 10px;
+	margin-left: 10px;
+	padding: 0rem 0rem;
+	font-weight: bold;
+	color: #161616;
+	border-bottom: 2px solid #27acd9;
+	border-radius: 100vh;
+	box-shadow: 0 2px 7px rgba(0, 0, 0, .3);
+	-webkit-box-shadow: 0 2px 7px rgba(0, 0, 0, .3);
+	transition: 0.5s;
+}
+.kanon:hover {
+	color: #fff;
+	background: #27acd9;
+	border-bottom: 2px solid #fff;
+	transform: translateY(3px);
+}
+
+.linkbtn{
+
+	display: flex;
+	justify-content:flex-start
+
+	}
