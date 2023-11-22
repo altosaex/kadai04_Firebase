@@ -150,14 +150,14 @@ set(newPostRef, msg);
 				// 削除イベント
 				$("#output").on("click", ".remove", function(){
 					const key = $(this).attr("data-key");
-					const remove_item = ref(db,"chat02/"+key);
+					const remove_item = ref(db,"chat03/"+key);
 					remove(remove_item); //firebaseデータ削除関数
 				});
 
 				// 更新イベント
 				$("#output").on("click", ".update", function(){
 					const key = $(this).attr("data-key");
-					update(ref(db, "chat02/"+key), {
+					update(ref(db, "chat03/"+key), {
 						text: $("#"+key+'_update').html()
 					}); //firebaseデータ削除関数
 				});
