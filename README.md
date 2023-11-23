@@ -6,7 +6,7 @@
 
 ## DEMO
 
-- 「index.html」から確認可能
+https://gsdev26us07-f16a4.web.app/
 
 
 ## 紹介と使い方
