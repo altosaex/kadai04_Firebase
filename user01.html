@@ -133,8 +133,8 @@ set(newPostRef, msg);
 							h += '<p class="ptext">';
 							h += '<span contentEditable="true" id="'+key+'_update">'+msg.text+'</span>';
 							h += '</p>';
-							h += '<span class="remove" data-key="'+key+'"> 🚮</span>'
-							h += '<span class="update" data-key="'+key+'"> 🆙</span>'
+							h += '<span class="remove" data-key="'+key+'"><img src="./img/remove.png" height=25" width="25" alt="削除画像" align="top" ></span>'
+							h += '<span class="update" data-key="'+key+'"> <img src="./img/up.png" height=25" width="25" alt="削除画像" align="top" ></span>'
 							h += '</div>';
 
 					$('#output').prepend(h);
